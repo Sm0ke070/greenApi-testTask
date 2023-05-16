@@ -1,0 +1,17 @@
+.login {
+  border: 1px solid;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+
+  .container {
+    width: 30vh;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 30px;
+    border: 1px solid;
+  }
+}
+

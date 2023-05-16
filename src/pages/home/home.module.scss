@@ -1,0 +1,40 @@
+.home {
+  display: flex;
+  justify-content: center;
+  border: 1px solid;
+  padding: 40px 0;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 950px;
+    height: 600px;
+    padding: 5px 10px;
+    border: 1px solid;
+
+    .logo {
+
+    }
+
+    .main {
+      display: flex;
+      justify-content: space-between;
+      height: 100%;
+
+      .contacts {
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+        width: 30%;
+        background-color: #fcfcfc;
+      }
+
+      .chat {
+        display: flex;
+        border-radius: 5px;
+        width: 69%;
+        background-color: #fcfcfc;
+      }
+    }
+  }
+}
