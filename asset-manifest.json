@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/greenApi-testTask/static/css/main.c42fdfb7.css",
+    "main.js": "/greenApi-testTask/static/js/main.d6d05903.js",
+    "index.html": "/greenApi-testTask/index.html",
+    "main.c42fdfb7.css.map": "/greenApi-testTask/static/css/main.c42fdfb7.css.map",
+    "main.d6d05903.js.map": "/greenApi-testTask/static/js/main.d6d05903.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c42fdfb7.css",
+    "static/js/main.d6d05903.js"
+  ]
+}
