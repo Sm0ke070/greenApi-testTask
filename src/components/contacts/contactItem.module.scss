@@ -1,22 +1,30 @@
 .container {
   display: flex;
-  border: 1px solid;
-  margin: 5px 0;
-  width: auto;
-  background-color: #fff;
+  margin: 5px 5px;
+  height: 55px;
+  background-color: #f3f3f3;
+  border: 1px solid #c9c9c9;
+  border-radius: 7px;
+  text-align: start;
+
+  &.active {
+    background-color: #e1e1e1;
+  }
 
   &:hover {
     background-color: #f2f2f2;
   }
 
   .item {
+    margin-left: 10px;
     display: flex;
     flex-direction: column;
-    padding: 5px;
+    justify-content: center;
     width: 100%;
+    border-radius: 5px;
+
 
     .name {
-      width: 95%;
       display: flex;
       justify-content: space-between;
     }
@@ -25,8 +33,9 @@
       display: inline-block;
       white-space: nowrap;
       overflow: hidden;
-      width: 90%;
       text-overflow: ellipsis;
+      color: #8c8c8c;
     }
   }
 }
+

@@ -1,7 +1,6 @@
 .home {
   display: flex;
   justify-content: center;
-  border: 1px solid;
   padding: 40px 0;
 
   .container {
@@ -9,12 +8,10 @@
     flex-direction: column;
     width: 950px;
     height: 600px;
-    padding: 5px 10px;
-    border: 1px solid;
-
-    .logo {
-
-    }
+    padding: 10px 10px;
+    border: 1px solid #c9c9c9;
+    border-radius: 7px;
+    background-color: #e8e8e8;
 
     .main {
       display: flex;
@@ -24,16 +21,74 @@
       .contacts {
         display: flex;
         flex-direction: column;
-        border-radius: 5px;
         width: 30%;
-        background-color: #fcfcfc;
+        background-color: rgba(201, 252, 252, 0.23);
+        text-align: center;
+        border: 1px solid #c9c9c9;
+        border-radius: 5px;
+
+        .search {
+          & input {
+            margin-right: 10px;
+            margin-left: 10px;
+            height: 30px;
+            border: 1px solid #c9c9c9;
+            border-radius: 5px;
+            outline: none;
+
+            &::placeholder {
+              text-align: center;
+            }
+
+            &:focus {
+              border: 1px solid #000000;
+            }
+          }
+
+          & button {
+            width: 60px;
+            height: 25px;
+            border: 1px solid #c9c9c9;
+            border-radius: 5px;
+
+            &:hover {
+              background-color: #e1e1e1;
+            }
+          }
+        }
       }
 
       .chat {
         display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #c9c9c9;
         border-radius: 5px;
         width: 69%;
-        background-color: #fcfcfc;
+        background-color: #e1ecec;
+
+        & input {
+          height: 30px;
+          border: 1px solid #c9c9c9;
+          border-radius: 5px;
+          outline: none;
+          width: calc(100% - 5px);
+
+          &:focus {
+            border: 1px solid #000000;
+          }
+        }
+
+        & button {
+          width: 60px;
+          height: 25px;
+          border: 1px solid #c9c9c9;
+          border-radius: 5px;
+
+          &:hover {
+            background-color: #e1e1e1;
+          }
+        }
       }
     }
   }

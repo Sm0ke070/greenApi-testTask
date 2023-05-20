@@ -1,64 +1,72 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import axios, {AxiosResponse} from "axios";
-import {RootState} from "../store";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {nanoid} from "nanoid";
+import {contactsState, FetchMessageResponse, User} from "./types";
+import {fetchUser, getMessage} from "./asyncActions";
 
-export const getUser = createAsyncThunk('contacts/getUser', async (phoneNumber: string, thunkAPI) => {
-        const {auth} = thunkAPI.getState() as RootState
-        const {id, apiToken} = auth
-        const params = {chatId: `${phoneNumber}@c.us`}
-        const url = `https://api.green-api.com/waInstance${id}/GetContactInfo/${apiToken}`
-        const res = await axios.post<User, AxiosResponse>(url, params)
-        console.log(res.data)
-        return res.data
-    }
-)
-
-export interface contactsState {
-    phoneNumber: string
-    isSent: boolean
-    users: User[]
-}
 
 const initialState: contactsState = {
     phoneNumber: '',
     isSent: false,
     users: [],
 }
-export type User = {
-    chatId: ''
-    name: ''
-}
+
 export const contactsSlice = createSlice({
     name: "contacts",
     initialState,
     reducers: {
         setPhoneNumber(state, action: PayloadAction<string>) {
             state.phoneNumber = action.payload
-            console.log(state.phoneNumber)
         },
-        setUser(state, action: PayloadAction<User>) {
-
+        sendMessage(state, action: PayloadAction<{ chatId: string, message: string, myChatId: string }>) {
+            const findUser = state.users.find(obj => obj.chatId === action.payload.chatId)
+            console.log(findUser, 'USER')
+            if (findUser) {
+                findUser.chat.unshift({
+                    chatId: action.payload.myChatId,
+                    idMessage: nanoid(),
+                    message: action.payload.message
+                })
+            }
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getUser.pending, (state) => {
-                state.isSent = false
-            })
-            .addCase(getUser.fulfilled, (state, action: PayloadAction<User>) => {
-                state.isSent = true
-                const user: User = {chatId: action.payload.chatId, name: action.payload.name}
+            .addCase(fetchUser.fulfilled, (state, action: PayloadAction<User>) => {
                 const findUser = state.users.find(obj => obj.chatId === action.payload.chatId)
                 if (!findUser) {
-                    state.users.push(user)
+                    const user: User = {
+                        chatId: action.payload.chatId,
+                        name: action.payload.name,
+                        chat: []
+                    }
+                    state.users.unshift(user)
                 }
-                console.log('FULFILLED')
             })
-            .addCase(getUser.rejected, (state) => {
-                console.log('getUser--rejected')
+            .addCase(getMessage.pending, (state) => {
+                state.isSent = true
+            })
+            .addCase(getMessage.fulfilled, (state: contactsState, action: PayloadAction<FetchMessageResponse>) => {
+                if (action.payload && action.payload?.body) {
+                    const {senderData, messageData, idMessage} = action.payload.body
+
+                    if (senderData) {
+                        const findUser = state.users.find(obj => obj.chatId === senderData.chatId)
+                        if (findUser) {
+                            findUser.chat.unshift({
+                                idMessage: idMessage, //nanoid(),
+                                message: messageData.extendedTextMessageData.text,
+                                chatId: senderData.sender
+                            })
+                        }
+                    }
+                }
+                state.isSent = false
+            })
+            .addCase(getMessage.rejected, (state) => {
+                state.isSent = false
             })
 
     }
 })
-export const {setUser} = contactsSlice.actions
+export const {sendMessage} = contactsSlice.actions
 export const contactsReducer = contactsSlice.reducer

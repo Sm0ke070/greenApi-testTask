@@ -1,26 +1,28 @@
 import React, {FC} from 'react';
 import styles from './contactItem.module.scss'
+import {useAppSelector} from "../../redux/store";
 
 type ContactItemPropsType = {
-    id: string
+    chatId: string
     name: string
-    onClickSetChat: (id: string, name: string) => void
+    currentUserId?: string
+    onClickSetChat: (chatId: string, name: string) => void
 }
-const ContactItem: FC<ContactItemPropsType> = ({name, id, onClickSetChat}) => {
+const ContactItem: FC<ContactItemPropsType> = ({name, chatId, onClickSetChat, currentUserId}) => {
 
-
-    const today = new Date()
-    const now = today.toLocaleDateString('en-US')
+    const user = useAppSelector(state => state.contacts.users.find(obj => obj.chatId === chatId))
+    const isActive = chatId === currentUserId;
 
     return (
-        <div className={styles.container} onClick={() => onClickSetChat(id, name)}>
+        <div className={`${styles.container} ${isActive ? styles.active : ''}`}
+
+             onClick={() => onClickSetChat(chatId, name)}>
             <div className={styles.item}>
-                <div className={styles.name} style={{border: '1px solid'}}>
-                    <div>{name ? name : 'no name'}-{id}</div>
-                    <div>{now}</div>
+                <div>
+                    <div>{name ? name : 'no name'} - <span style={{color:'#a5a5a5', fontSize:'12px'}}>{chatId.slice(0, -5)}</span></div>
                 </div>
                 <span className={styles.message}>
-                    message message message message message message message message message message message
+                    {user?.chat[0]?.message}
                 </span>
             </div>
         </div>
